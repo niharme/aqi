@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>AQI | Home</title>
+
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='styles/main.css')}}"
+    />
+
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='icons/favicon.ico') }}"
+      type="image/x-icon"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- header section -->
+      <header class="site-header">
+        <!-- header logo and brand name -->
+        <div class="header-top">
+          <div class="header-logo">
+            <a href="/">
+              <div class="logo">AQI(Air Quality Index)</div>
+            </a>
+          </div>
+        </div>
+      </header>
+      <main class="content">
+        <div class="framed-content">
+          <h1>this is the airindex page</h1>
+          <p>Air Quality Index {{ aqi }}</p>
+          <p>Labels {{ labels }}</p>
+          <p>values {{ values }}</p>
+          <p>time {{ now }}</p>
+          <canvas id="myChart"></canvas>
+        </div>
+      </main>
+    </div>
+  </body>
+  <script>
+    const data = {
+      labels: {{ labels | safe }},
+      datasets: [
+        {
+          label: "Air Polutant Components",
+          data: {{ values | safe }},
+          backgroundColor: [
+            "#ff6961",
+            "#ffb480",
+            "#f8f38d",
+            "#42d6a4",
+            "#08cad1",
+            "#59adf6",
+            "#9d94ff",
+            "#c780e8",
+          ],
+          hoverOffset: 4,
+        },
+      ],
+    };
+
+    const config = {
+      type: "pie",
+      data: data,
+      options: {
+        elements: {
+          arc: {
+            borderWidth: 0.5,
+            borderColor: "#000"
+          }
+        }
+      }
+    };
+
+    const myChart = new Chart(document.getElementById("myChart"), config);
+  </script>
+</html>
